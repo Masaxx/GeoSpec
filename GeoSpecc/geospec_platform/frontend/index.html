@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoSpec | UAV Multispectral Building Extraction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<header>
+    <div class="header-content">
+        <div class="logo">GeoSpec</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#" data-tab="analysis" class="active">Analysis</a></li>
+                <li><a href="#" data-tab="orthophoto">Orthophoto Generation</a></li>
+                <li><a href="#" data-tab="datasets">Datasets</a></li>
+                <li><a href="#" data-tab="models">Models</a></li>
+                <li><a href="#" data-tab="results">Results & Metrics</a></li>
+                <li><a href="#" data-tab="documentation">Documentation</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+        <h3>Data Sources</h3>
+        <select id="dataSource"><option value="uav">DJI Phantom 4 Multispectral</option></select>
+        <label>BBox (UB Vegas Block 480)</label>
+        <input id="bboxInput" type="text" value="25.9333,-24.6667,25.9333,-24.6667">
+        <button id="fetchImageryBtn">Simulate UAV Flight</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div id="tab-container">
+
+            <!-- ANALYSIS TAB (original) -->
+            <div id="analysis-tab" class="tab-panel active">
+                <div class="map-container"><div id="map"></div></div>
+                <div class="analysis-panel">
+                    <h3>Semantic Segmentation</h3>
+                    <button id="runSegmentationBtn">Run U-Net Segmentation</button>
+                    <div class="progress-container"><div id="progressBar" class="progress-bar"></div></div>
+                    <input type="file" id="imageUpload" accept="image/*">
+                    <button id="predictUploadBtn">Predict Buildings (Multispectral)</button>
+                </div>
+            </div>
+
+            <!-- ORTHOPHOTO GENERATION TAB (Objective 1) -->
+            <div id="orthophoto-tab" class="tab-panel">
+                <h2>1. UAV Multispectral Orthophoto Generation (Phantom 4)</h2>
+                <p>Upload RGB + NIR bands or ZIP of raw images</p>
+                <input type="file" id="orthophotoUpload" accept=".zip,.tif,.png,.jpg" multiple>
+                <button id="generateOrthophotoBtn">Generate Orthophoto + NDVI</button>
+                <div id="orthophotoResult" style="margin-top:15px;"></div>
+            </div>
+
+            <!-- RESULTS & METRICS TAB (full evaluation) -->
+            <div id="results-tab" class="tab-panel">
+                <h2>Results & Accuracy Assessment</h2>
+                <div id="metricsDashboard"></div>
+                <canvas id="resultsChart" width="700" height="300"></canvas>
+            </div>
+
+            <!-- Other tabs remain as before (Datasets, Models, Documentation) -->
+            <!-- ... (same as previous version) ... -->
+
+        </div>
+    </main>
+
+    <!-- Right Sidebar -->
+    <aside class="sidebar">
+        <h3>Quick Results</h3>
+        <p>Buildings Detected: <span id="buildingsDetected" style="font-size:2rem;color:#00ff41">0</span></p>
+        <p>IoU: <span id="iouValue" style="color:#00ff41">0.00</span></p>
+        <canvas id="resultsChartSmall" width="260" height="180"></canvas>
+    </aside>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/maplogic.js"></script>
+<script src="js/analysis.js"></script>
+<script src="js/Segmentation.js"></script>
+<script src="js/uicontrols.js"></script>
+<script src="js/app_entrypoint.js"></script>
+</body>
+</html>

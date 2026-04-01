@@ -1,0 +1,11 @@
+flask
+flask-cors
+tensorflow
+numpy
+opencv-python
+geopandas
+shapely
+rasterio
+scikit-learn
+matplotlib
+pillow
